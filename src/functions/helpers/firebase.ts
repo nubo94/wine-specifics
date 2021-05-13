@@ -1,14 +1,14 @@
 import firebase from "@/firebase/clientApp";
 
 export interface IDOC {
+  doc: "form";
   field?: Object;
-  doc: string;
   collection: "winesForms";
 }
 /**
  * update document's firebase by field
- * @param {IDOC} collection collection to update
  * @param {IDOC} doc document to update
+ * @param {IDOC} collection collection to update
  * @param {IDOC} field field to update in the document, e.g. { avatar: string }
  */
 
@@ -45,6 +45,29 @@ export function _createDoc({ collection, doc, field }: IDOC) {
     })
     .catch((err) => {
       console.error(err);
+      return err;
+    });
+}
+
+/**
+ * get document's firebase by doc
+ * @param {IDOC} collection collection to get, format e.g. winesForms
+ * @param {IDOC} doc document to get, e.g. form
+ */
+
+export function _getDoc({ collection, doc }: IDOC) {
+  const db = firebase.firestore();
+  return db
+    .collection(collection)
+    .doc(doc)
+    .get()
+    .then((res) => {
+      if (res.exists) {
+        return res.data();
+      }
+      return null;
+    })
+    .catch((err) => {
       return err;
     });
 }

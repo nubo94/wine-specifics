@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import HomeTemplate from "@/core/templates/Home";
+import { _getDoc } from "@/functions";
 
 export default function Home({ SEO, forms, title }) {
   return (

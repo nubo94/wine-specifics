@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { makeStyles, Theme } from "@material-ui/core";
+import { makeStyles, Theme, Hidden } from "@material-ui/core";
 import { Input, Text, Tooltip, Box, Select } from "@/core/atoms";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
@@ -50,7 +50,7 @@ export default function InputWithLabels({
   }
 
   return (
-    <Box display="flex" alignItems="center">
+    <Box display="flex" alignItems="center" className={classes.root}>
       <Box className={classes.textWrapper}>
         <Text
           label={label}
@@ -67,19 +67,20 @@ export default function InputWithLabels({
             className={classes.isRequired}
           />
         )}
+        {hasDependencies ? null : (
+          <Hidden mdUp>
+            <Box>
+              <TooltipComponent description={description} />
+            </Box>
+          </Hidden>
+        )}
       </Box>
       <Box width="100%" display="flex">
-        <Box position="relative" top={6} right={6}>
-          <Tooltip
-            arrow={false}
-            placement="left-end"
-            interactive={false}
-            title={description}
-            disabled={!description ? true : false}
-          >
-            <HelpOutlineIcon fontSize="small" className={classes.helpIcon} />
-          </Tooltip>
-        </Box>
+        <Hidden smDown>
+          <Box position="relative" top={6} right={6}>
+            <TooltipComponent description={description} />
+          </Box>
+        </Hidden>
         <Box
           className={clsx(classes.inputWrapperDefault, {
             [classes.inputWrapperErr]: isRequired
@@ -121,6 +122,21 @@ export default function InputWithLabels({
   );
 }
 
+function TooltipComponent({ description }) {
+  const classes = useStyles();
+  return (
+    <Tooltip
+      arrow={false}
+      placement="left-end"
+      interactive={false}
+      title={description}
+      disabled={!description ? true : false}
+    >
+      <HelpOutlineIcon fontSize="small" className={classes.helpIcon} />
+    </Tooltip>
+  );
+}
+
 interface IInputWithLabelsProps {
   value?: any;
   label?: string;
@@ -146,6 +162,13 @@ interface IInputWithLabelsProps {
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      alignItems: "flex-start",
+      marginBottom: theme.spacing(2.4),
+    },
+  },
   label: {
     fontSize: 14,
   },
@@ -156,11 +179,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: 10,
   },
   textWrapper: {
-    display: "flex",
-    alignItems: "center",
     minWidth: 400,
     maxWidth: 400,
+    display: "flex",
+    alignItems: "center",
     paddingRight: theme.spacing(2),
+    [theme.breakpoints.down("sm")]: {
+      minWidth: "100%",
+      maxWidth: "100%",
+    },
+  },
+  boxInputsWrapper: {
+    [theme.breakpoints.down("sm")]: {
+      display: "inline",
+      width: "100%",
+    },
   },
   inputWrapperDefault: {
     width: "100%",
