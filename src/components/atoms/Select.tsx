@@ -27,13 +27,11 @@ export default function Select({ items, _onChange }: SelectProps) {
         input={<InputStyle />}
         onChange={handleChange}
       >
-        {items
-          ?.filter((f) => f)
-          ?.map((i, k) => (
-            <option value={i} key={k}>
-              {i}
-            </option>
-          ))}
+        {items?.map((i, k) => (
+          <option value={i} key={k}>
+            {i}
+          </option>
+        ))}
       </NativeSelect>
     </FormControl>
   );

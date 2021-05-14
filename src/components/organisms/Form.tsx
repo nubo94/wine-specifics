@@ -26,11 +26,16 @@ export default function HomeTemplate({ title, items, storage }) {
 
   const _onChange = (value) => setForm(value);
 
-  const _disable = () =>
-    flatten(elements.map((i) => i.items))
-      .filter((f) => f.isRequired)
-      .map((i) => form?.fields && Object.keys(form?.fields).includes(i.type))
-      .includes(false);
+  const _disable = () => {
+    const fieldsRequired = flatten(elements?.map((i) => i.items))?.filter(
+      (f) => f.isRequired
+    );
+    const lengthCheck = compact(
+      fieldsRequired?.map((i) => form?.fields?.[i.type])
+    ).length;
+
+    return fieldsRequired?.length === lengthCheck;
+  };
 
   function _getScore() {
     const length = flatten(elements.map((i) => i.items)).length;
@@ -85,7 +90,7 @@ export default function HomeTemplate({ title, items, storage }) {
                 variant="contained"
                 isLoading={isLoading}
                 onClick={_handleSubmit}
-                disabled={form.errs || _disable() || isLoading}
+                disabled={!_disable() || form.errs || isLoading}
               />
             </Box>
           </Box>
