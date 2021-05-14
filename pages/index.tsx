@@ -7,24 +7,24 @@ export default function Home({ SEO, forms, title }) {
   return (
     <>
       <Head>
-        <title>{SEO?.title}</title>
+        <title>{"SEO?.title"}</title>
       </Head>
-      <HomeTemplate title={title} items={forms} />
+      {/*  <HomeTemplate title={title} items={forms} /> */}
     </>
   );
 }
 
 export async function getStaticProps() {
   const basePath = process.env.basePath;
-  const { SEO, title, forms } = await (
-    await fetch(`${basePath}/api/v1`)
-  ).json();
+  // const { SEO, title, forms } = await (
+  //   await fetch(`${basePath}/api/v1`)
+  // ).json();
 
   return {
     props: {
-      SEO,
-      forms,
-      title,
+      //  SEO,
+      //   forms,
+      //   title,
     },
   };
 }
