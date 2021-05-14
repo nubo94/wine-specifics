@@ -12,11 +12,13 @@ import { Input } from "@/core/atoms";
 export default function Select({ items, _onChange }: SelectProps) {
   const classes = useStyles();
   const [value, setValue] = useState("");
+
   const handleChange = (event: ChangeEvent<{ value: unknown }>) => {
     const value = event.target.value as string;
     setValue(value);
     _onChange(event);
   };
+
   return (
     <FormControl className={classes.root}>
       <NativeSelect
@@ -25,11 +27,13 @@ export default function Select({ items, _onChange }: SelectProps) {
         input={<InputStyle />}
         onChange={handleChange}
       >
-        {items?.map((i, k) => (
-          <option value={i} key={k}>
-            {i}
-          </option>
-        ))}
+        {items
+          ?.filter((f) => f)
+          ?.map((i, k) => (
+            <option value={i} key={k}>
+              {i}
+            </option>
+          ))}
       </NativeSelect>
     </FormControl>
   );

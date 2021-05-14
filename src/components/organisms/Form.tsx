@@ -17,7 +17,7 @@ export default function HomeTemplate({ title, items, storage }) {
 
   useEffect(() => {
     __init__();
-  }, []);
+  }, [storage]);
 
   useEffect(() => {
     const updated = _showFieldsHidden(elements, form.fields);
